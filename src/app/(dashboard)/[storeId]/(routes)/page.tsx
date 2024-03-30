@@ -1,7 +1,13 @@
+import prismaDB from "@/lib/prismadb";
 import React from "react";
 
-const StorePage = ({ params }: { params: { storeId?: string } }) => {
-  return <div>store page</div>;
+const StorePage = async ({ params }: { params: { storeId?: string } }) => {
+  const store = await prismaDB.store.findFirst({
+    where: {
+      id: params.storeId,
+    },
+  });
+  return <div>store page {store?.name} </div>;
 };
 
 export default StorePage;

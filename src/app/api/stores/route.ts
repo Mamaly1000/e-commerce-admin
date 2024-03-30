@@ -12,6 +12,14 @@ export async function POST(req: Request) {
     if (!name || typeof name !== "string") {
       return new NextResponse("name is not valid", { status: 400 });
     }
+    const doesExits = await prismaDB.store.findFirst({
+      where: { name },
+    });
+    if (doesExits) {
+      return new NextResponse("this store has already exists!", {
+        status: 400,
+      });
+    }
     const store = await prismaDB.store.create({
       data: { name, userId: userId },
     });

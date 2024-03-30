@@ -39,6 +39,9 @@ const CreateStoreModal = () => {
         .post("/api/stores", values)
         .then((res) => {
           toast.success(res.data.message);
+          window.location.assign(`/${res.data.store.id}`);
+          onClose();
+          formState.reset();
         })
         .catch((error) => {
           if (error?.response?.data?.message) {

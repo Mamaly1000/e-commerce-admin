@@ -3,9 +3,9 @@ import { Inter } from "next/font/google";
 
 import ModalProvider from "@/providers/ModalProviders";
 import ToastProvider from "@/providers/ToastProvider";
-// import { ThemeProvider } from "@/providers/theme-provider";
 
 import "./globals.css";
+import { ThemeProvider } from "@/providers/ThemeProveder";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,11 +23,11 @@ export default async function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={inter.className}>
-          {/* <ThemeProvider attribute="class" defaultTheme="system" enableSystem> */}
-          <ToastProvider />
-          <ModalProvider />
-          {children}
-          {/* </ThemeProvider> */}
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <ToastProvider />
+            <ModalProvider />
+            {children}
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>

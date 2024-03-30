@@ -1,12 +1,36 @@
-"use client"
-import React from 'react';
+import { UserButton, auth } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 
-const navbar = () => {
-    return (
-        <div>
-            
+import StoreSwitcher from "@/components/store-switcher";
+import { MainNav } from "@/components/main-nav";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import prismaDB from "@/lib/prismadb";
+
+const Navbar = async () => {
+  const { userId } = auth();
+
+  if (!userId) {
+    redirect("/sign-in");
+  }
+
+  const stores = await prismaDB.store.findMany({
+    where: {
+      userId,
+    },
+  });
+
+  return (
+    <div className="border-b">
+      <div className="flex h-16 items-center px-4">
+        <StoreSwitcher items={stores} />
+        <MainNav className="mx-6" />
+        <div className="ml-auto flex items-center space-x-4">
+          <ThemeToggle />
+          <UserButton afterSignOutUrl="/" />
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
-export default navbar;
+export default Navbar;
