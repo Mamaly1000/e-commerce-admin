@@ -31,7 +31,7 @@ export default async function DashboardLayout({
   return (
     <>
       <Navbar />
-      {children}
+      <section className="p-2 md:p-5">{children}</section>
     </>
   );
 }

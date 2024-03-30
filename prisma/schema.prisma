@@ -17,4 +17,16 @@ model Store{
   userId String 
   createdAt  DateTime @default(now())
   updatedAt DateTime @default(now()) 
+  billboards Billboard[] @relation("StoreToBillboard")
+}
+model Billboard {
+  id String @id @default(uuid()) @map("_id")
+  storeId String  
+  store Store @relation("StoreToBillboard",fields: [storeId],references: [id],onDelete:Cascade)
+  poster String
+  label String
+  createdAt  DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@index([storeId]) 
 }
