@@ -1,8 +1,8 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Modal from "@/components/modals/Modal";
 import { useStoreModal } from "@/hooks/useStoreModal";
-
+import { toast } from "react-toastify";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,13 +16,16 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import axios from "axios";
 
 const formSchema = z.object({
-  name: z.string().min(1),
+  name: z.string().min(1).trim(),
 });
 
 const CreateStoreModal = () => {
   const { onClose, isOpen } = useStoreModal();
+  const [isLoading, setLoading] = useState(false);
+
   const formState = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -30,7 +33,26 @@ const CreateStoreModal = () => {
     },
   });
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    if (values.name.trim().length !== 0) {
+      setLoading(true);
+      await axios
+        .post("/api/stores", values)
+        .then((res) => {
+          toast.success(res.data.message);
+        })
+        .catch((error) => {
+          if (error?.response?.data?.message) {
+            toast.error(error.response.data.message);
+          } else {
+            toast.error("something went wrong!");
+          }
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } else {
+      toast.error("please write a valid name!");
+    }
   };
   return (
     <Modal
@@ -46,12 +68,17 @@ const CreateStoreModal = () => {
               <FormField
                 control={formState.control}
                 name="name"
+                disabled={isLoading}
                 render={({ field }) => {
                   return (
                     <FormItem>
                       <FormLabel>Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="E-Commerce" {...field} />
+                        <Input
+                          disabled={isLoading}
+                          placeholder={isLoading ? "disabled" : "E-Commerce"}
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -59,10 +86,16 @@ const CreateStoreModal = () => {
                 }}
               />
               <div className="pt-6 space-x-2 flex items-center justify-end ">
-                <Button variant="outline" onClick={onClose}>
+                <Button
+                  disabled={isLoading}
+                  variant="outline"
+                  onClick={onClose}
+                >
                   cancel
                 </Button>
-                <Button type="submit">continue</Button>
+                <Button disabled={isLoading} type="submit">
+                  continue
+                </Button>
               </div>
             </form>
           </Form>

@@ -14,6 +14,7 @@ interface props {
   isOpen: boolean;
   onClose: () => void;
   children?: ReactNode;
+  disabled?: boolean;
 }
 
 const Modal: FC<props> = ({
@@ -22,10 +23,13 @@ const Modal: FC<props> = ({
   onClose,
   title,
   children,
+  disabled,
 }) => {
   const onChange = (open: boolean) => {
-    if (!open) {
-      onClose();
+    if (!disabled) {
+      if (!open) {
+        onClose();
+      }
     }
   };
   return (
