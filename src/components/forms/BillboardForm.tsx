@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import ApiAlert from "../shared/ApiAlert";
 import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
 import {
@@ -20,7 +19,6 @@ import { toast } from "react-toastify";
 import { z } from "zod";
 import { Billboard } from "@prisma/client";
 import { useParams, useRouter } from "next/navigation";
-import useOrigin from "@/hooks/useOrigin";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ImageUpload from "../ui/ImageUpload";
@@ -36,14 +34,14 @@ const formSchema = z.object({
       message: "Name cannot consist of only whitespace characters",
       path: ["name"],
     }),
-  poster: z.string().min(1),
+  poster: z
+    .string()
+    .min(1, "billboard must contain at least one poster image."),
 });
 type BillboardFormValues = z.infer<typeof formSchema>;
 const BillboardForm: React.FC<BillboardProps> = ({ initialData }) => {
   const router = useRouter();
   const params = useParams();
-
-  const origin = useOrigin();
 
   const [open, setOpen] = useState(false);
   const [isLoading, setLoading] = useState(false);
@@ -62,27 +60,46 @@ const BillboardForm: React.FC<BillboardProps> = ({ initialData }) => {
     : "Billboard Created.";
   const action = initialData ? "Save changes" : "Create";
   const onSubmit = async (data: BillboardFormValues) => {
+    const url = initialData
+      ? `/api/stores/${params.storeId}/billboards/${params.billboardId}`
+      : `/api/stores/${params.storeId}/billboards`;
     try {
       setLoading(true);
-      await axios.patch(`/api/stores/${params.storeId}`, data).then((res) => {
-        router.refresh();
-        toast.success(toastMessage);
-      });
+      if (initialData) {
+        await axios.patch(url, data).then(() => {
+          router.refresh();
+          toast.success(toastMessage);
+          router.push(`/${params.storeId}/billboards`);
+        });
+      } else {
+        await axios.post(url, data).then(() => {
+          router.refresh();
+          toast.success(toastMessage);
+          router.push(`/${params.storeId}/billboards`);
+        });
+      }
     } catch (error: any) {
-      toast.error("Something went wrong.");
+      toast.error(
+        "Make sure you removed all categories using this billboard first."
+      );
     } finally {
       setLoading(false);
+      router.refresh();
     }
   };
 
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/stores/${params.storeId}`).then((res) => {
-        router.refresh();
-        window.location.assign("/");
-        toast.success(res.data.message);
-      });
+      await axios
+        .delete(
+          `/api/stores/${params.storeId}/billboards/${params.billboardId}`
+        )
+        .then((res) => {
+          router.refresh();
+          window.location.assign(`/${params.storeId}/billboards`);
+          toast.success(res.data.message);
+        });
     } catch (error: any) {
       toast.error("Make sure you removed all products and categories first.");
     } finally {
@@ -165,12 +182,6 @@ const BillboardForm: React.FC<BillboardProps> = ({ initialData }) => {
           </Button>
         </form>
       </Form>
-      <Separator />
-      <ApiAlert
-        title="NEXT_PUBLIC_API_URL"
-        variant="public"
-        description={`${origin}/api/${params.storeId}`}
-      />
     </section>
   );
 };

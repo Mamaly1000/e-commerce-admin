@@ -18,15 +18,29 @@ model Store{
   createdAt  DateTime @default(now())
   updatedAt DateTime @default(now()) 
   billboards Billboard[] @relation("StoreToBillboard")
+  categories Category[] @relation("StoreToCategory")
 }
 model Billboard {
   id String @id @default(uuid()) @map("_id")
   storeId String  
-  store Store @relation("StoreToBillboard",fields: [storeId],references: [id],onDelete:Cascade)
   poster String
   label String
   createdAt  DateTime @default(now())
   updatedAt DateTime @default(now())
 
+  categories Category[] @relation("BillboardToCategory")
+  store Store @relation("StoreToBillboard",fields: [storeId],references: [id],onDelete:Cascade)
   @@index([storeId]) 
+}
+model Category{
+   id String @id @default(uuid()) @map("_id")
+   storeId String  
+   billboardId String
+   name String
+   createdAt  DateTime @default(now())
+   updatedAt DateTime @default(now())
+   store Store @relation("StoreToCategory",fields: [storeId],references: [id],onDelete:Cascade)
+   billboard Billboard @relation("BillboardToCategory",fields: [billboardId],references: [id],onDelete:Cascade)
+   @@index([storeId])
+   @@index([billboardId])
 }

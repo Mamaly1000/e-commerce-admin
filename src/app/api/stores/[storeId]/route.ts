@@ -4,14 +4,14 @@ import { NextResponse } from "next/server";
 
 export async function PATCH(
   req: Request,
-  { params }: { params?: { id?: string } }
+  { params }: { params?: { storeId?: string } }
 ) {
   try {
     const { userId } = auth();
     if (!userId) {
       return new NextResponse("unAuthenticated", { status: 401 });
     }
-    if (!params?.id || typeof params?.id !== "string") {
+    if (!params?.storeId || typeof params?.storeId !== "string") {
       return new NextResponse("store id is required!", { status: 400 });
     }
     const { name } = await req.json();
@@ -19,7 +19,7 @@ export async function PATCH(
       return new NextResponse("name is required!", { status: 400 });
     }
     const store = await prismaDB.store.updateMany({
-      where: { id: params.id, userId },
+      where: { id: params.storeId, userId },
       data: {
         name,
       },
@@ -32,18 +32,18 @@ export async function PATCH(
 }
 export async function DELETE(
   _req: Request,
-  { params }: { params?: { id: string } }
+  { params }: { params?: { storeId: string } }
 ) {
   try {
     const { userId } = auth();
     if (!userId) {
       return new NextResponse("unAuthorized", { status: 401 });
     }
-    if (!params?.id || typeof params?.id !== "string") {
+    if (!params?.storeId || typeof params?.storeId !== "string") {
       return new NextResponse("invalid id", { status: 400 });
     }
     const store = await prismaDB.store.delete({
-      where: { id: params.id, userId },
+      where: { id: params.storeId, userId },
     });
     return NextResponse.json({ message: "store deleted", store });
   } catch (error) {
