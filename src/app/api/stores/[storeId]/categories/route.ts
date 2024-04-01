@@ -7,13 +7,13 @@ export async function POST(
   { params }: { params: { storeId: string } }
 ) {
   try {
-    const { label, poster }: { label?: string; poster?: string } =
+    const { name, billboardId }: { name?: string; billboardId?: string } =
       await req.json();
     const { userId } = auth();
     if (!userId) {
       return new NextResponse("unAuthenticated", { status: 401 });
     }
-    if (!label || !poster) {
+    if (!name || !billboardId) {
       return new NextResponse("fields values are missing!", { status: 400 });
     }
     if (!params.storeId) {
@@ -28,16 +28,16 @@ export async function POST(
     if (!isUserStore) {
       return new NextResponse("unAuthorized", { status: 403 });
     }
-    const newBillboard = await prismaDB.billboard.create({
+    const newCategory = await prismaDB.category.create({
       data: {
-        label,
-        poster,
+        name,
+        billboardId,
         storeId: params.storeId,
       },
     });
-    return NextResponse.json({ message: "Billboard Created.", newBillboard });
+    return NextResponse.json({ message: "Category Created.", newCategory });
   } catch (error) {
-    console.log("[POST-BILLBOARD-ERROR] ", error);
+    console.log("[POST-CATEGORY-ERROR] ", error);
     return new NextResponse("internall error", { status: 500 });
   }
 }
@@ -50,14 +50,14 @@ export async function GET(
       return new NextResponse("storeId is required!", { status: 400 });
     }
 
-    const billboards = await prismaDB.billboard.findMany({
+    const categories = await prismaDB.category.findMany({
       where: {
         storeId: params.storeId,
       },
     });
-    return NextResponse.json(billboards);
+    return NextResponse.json(categories);
   } catch (error) {
-    console.log("[POST-BILLBOARD-ERROR] ", error);
+    console.log("[POST-CATEGORY-ERROR] ", error);
     return new NextResponse("internall error", { status: 500 });
   }
 }
