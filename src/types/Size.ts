@@ -1,9 +1,8 @@
-export type safeCategoryType = {
+export type safeSizeType = {
   id: string;
   storeId: string;
-  billboardId: string;
   name: string;
+  value: string;
   createdAt: string;
   updatedAt: string;
-  billboard_label: string;
 };
