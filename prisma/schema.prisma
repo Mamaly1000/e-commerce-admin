@@ -20,6 +20,7 @@ model Store{
   billboards Billboard[] @relation("StoreToBillboard")
   categories Category[] @relation("StoreToCategory")
   sizes Size[] @relation("StoreToSize")
+  colors Color[] @relation("StoreToColor")
 }
 model Billboard {
   id String @id @default(uuid()) @map("_id")
@@ -54,5 +55,15 @@ model Size{
   value String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
-
+@@index([storeId])
+}
+model Color{
+  id String @id @default(uuid()) @map("_id")
+  storeId String
+  store Store @relation("StoreToColor",fields: [storeId],references: [id],onDelete:Cascade)
+  name String
+  value String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+@@index([storeId])
 }

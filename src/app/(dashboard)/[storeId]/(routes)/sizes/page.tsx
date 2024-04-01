@@ -1,10 +1,10 @@
-import prismaDB from "@/lib/prismadb"; 
+import prismaDB from "@/lib/prismadb";
 import React from "react";
 import { format } from "date-fns";
 import { safeSizeType } from "@/types/Size";
 import SizeClient from "@/components/clients/size/SizeClient";
 
-const BillboardsPage = async ({ params }: { params: { storeId: string } }) => {
+const SizesPage = async ({ params }: { params: { storeId: string } }) => {
   const sizes = await prismaDB.size.findMany({
     where: { storeId: params.storeId },
     orderBy: { createdAt: "desc" },
@@ -17,4 +17,4 @@ const BillboardsPage = async ({ params }: { params: { storeId: string } }) => {
   return <SizeClient sizes={formattedSizes} />;
 };
 
-export default BillboardsPage;
+export default SizesPage;
