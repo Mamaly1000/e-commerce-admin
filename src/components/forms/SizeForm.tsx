@@ -153,8 +153,14 @@ const SizeForm: FC<props> = ({ initialData }) => {
               render={({ field }) => {
                 return (
                   <FormItem>
-                    <FormLabel>size value</FormLabel>
-                    <FormControl></FormControl>
+                    <FormLabel>Value</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={isLoading}
+                        placeholder="value..."
+                        {...field}
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 );

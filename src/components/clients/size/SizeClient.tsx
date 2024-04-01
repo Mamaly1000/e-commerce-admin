@@ -14,7 +14,7 @@ const SizeClient = ({ sizes }: { sizes: safeSizeType[] }) => {
   const params = useParams();
   const router = useRouter();
   const onAdd = () => {
-    router.push(`/${params.storeId}/billboards/new`);
+    router.push(`/${params.storeId}/sizes/new`);
   };
   return (
     <section className="min-w-full max-w-full flex flex-col items-start justify-start gap-5">

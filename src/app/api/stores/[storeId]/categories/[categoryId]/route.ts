@@ -14,13 +14,13 @@ export async function GET(
       return new NextResponse("storeId is required!", { status: 400 });
     }
 
-    const billboard = await prismaDB.category.findUnique({
+    const category = await prismaDB.category.findUnique({
       where: {
         storeId: params.storeId,
         id: params.categoryId,
       },
     });
-    return NextResponse.json(billboard);
+    return NextResponse.json(category);
   } catch (error) {
     console.log(`[CATEGORY-GET-ERROR] `, error);
     return new NextResponse("internall error", { status: 500 });

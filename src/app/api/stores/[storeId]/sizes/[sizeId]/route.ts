@@ -4,43 +4,43 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   _req: Request,
-  { params }: { params: { categoryId: string; storeId: string } }
+  { params }: { params: { sizeId: string; storeId: string } }
 ) {
   try {
-    if (!params?.categoryId) {
+    if (!params?.sizeId) {
       return new NextResponse("invalid id", { status: 400 });
     }
     if (!params.storeId) {
       return new NextResponse("storeId is required!", { status: 400 });
     }
 
-    const billboard = await prismaDB.category.findUnique({
+    const size = await prismaDB.size.findUnique({
       where: {
         storeId: params.storeId,
-        id: params.categoryId,
+        id: params.sizeId,
       },
     });
-    return NextResponse.json(billboard);
+    return NextResponse.json(size);
   } catch (error) {
-    console.log(`[CATEGORY-GET-ERROR] `, error);
+    console.log(`[SIZE-GET-ERROR] `, error);
     return new NextResponse("internall error", { status: 500 });
   }
 }
 export async function PATCH(
   req: Request,
-  { params }: { params: { categoryId: string; storeId: string } }
+  { params }: { params: { sizeId: string; storeId: string } }
 ) {
   try {
     const { userId } = auth();
-    const { name, billboardId }: { name?: string; billboardId?: string } =
+    const { name, value }: { name?: string; value?: string } =
       await req.json();
     if (!userId) {
       return new NextResponse("unAuthorized", { status: 401 });
     }
-    if (!params?.categoryId) {
+    if (!params?.sizeId) {
       return new NextResponse("invalid id", { status: 400 });
     }
-    if (!name || !billboardId) {
+    if (!name || !value) {
       return new NextResponse("fields values are missing!", { status: 400 });
     }
     if (!params.storeId) {
@@ -55,28 +55,28 @@ export async function PATCH(
     if (!isUserStore) {
       return new NextResponse("unAuthorized", { status: 403 });
     }
-    const updatedCategory = await prismaDB.category.update({
+    const updatedSize = await prismaDB.size.update({
       where: {
         storeId: params.storeId,
-        id: params.categoryId,
+        id: params.sizeId,
       },
       data: {
         name,
-        billboardId,
+        value,
       },
     });
     return NextResponse.json({
-      message: "category updated",
-      updatedCategory,
+      message: "size updated",
+      updatedSize,
     });
   } catch (error) {
-    console.log(`[CATEGORY-PATCH-ERROR] `, error);
+    console.log(`[SIZE-PATCH-ERROR] `, error);
     return new NextResponse("internall error", { status: 500 });
   }
 }
 export async function DELETE(
   _req: Request,
-  { params }: { params: { categoryId: string; storeId: string } }
+  { params }: { params: { sizeId: string; storeId: string } }
 ) {
   try {
     const { userId } = auth();
@@ -84,7 +84,7 @@ export async function DELETE(
     if (!userId) {
       return new NextResponse("unAuthorized", { status: 401 });
     }
-    if (!params?.categoryId) {
+    if (!params?.sizeId) {
       return new NextResponse("invalid id", { status: 400 });
     }
     if (!params.storeId) {
@@ -99,18 +99,18 @@ export async function DELETE(
     if (!isUserStore) {
       return new NextResponse("unAuthorized", { status: 403 });
     }
-    const deletedCategory = await prismaDB.category.delete({
+    const deletedSize = await prismaDB.size.delete({
       where: {
         storeId: params.storeId,
-        id: params.categoryId,
+        id: params.sizeId,
       },
     });
     return NextResponse.json({
       message: "category deleted",
-      deletedCategory,
+      deletedSize,
     });
   } catch (error) {
-    console.log(`[CATEGORY-DELETE-ERROR] `, error);
+    console.log(`[SIZE-DELETE-ERROR] `, error);
     return new NextResponse("internall error", { status: 500 });
   }
 }

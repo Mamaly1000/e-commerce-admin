@@ -57,7 +57,7 @@ export async function GET(
     });
     return NextResponse.json(categories);
   } catch (error) {
-    console.log("[POST-CATEGORY-ERROR] ", error);
+    console.log("[GET-CATEGORY-ERROR] ", error);
     return new NextResponse("internall error", { status: 500 });
   }
 }
