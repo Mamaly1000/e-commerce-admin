@@ -1,8 +1,8 @@
-import prismaDB from "@/lib/prismadb"; 
+import prismaDB from "@/lib/prismadb";
 import React from "react";
-import { format } from "date-fns"; 
-import SizeClient from "@/components/clients/size/SizeClient";
+import { format } from "date-fns";
 import { safeColorType } from "@/types/Color";
+import ColorClient from "@/components/clients/color/ColorClient";
 
 const ColorsPage = async ({ params }: { params: { storeId: string } }) => {
   const colors = await prismaDB.color.findMany({
@@ -14,7 +14,7 @@ const ColorsPage = async ({ params }: { params: { storeId: string } }) => {
     createdAt: format(s.createdAt, "MMMM do, yyyy"),
     updatedAt: format(s.updatedAt, "MMMM do, yyyy"),
   }));
-  return <SizeClient sizes={formattedColors} />;
+  return <ColorClient sizes={formattedColors} />;
 };
 
 export default ColorsPage;

@@ -155,11 +155,17 @@ const ColorForm: FC<props> = ({ initialData }) => {
                   <FormItem>
                     <FormLabel>Value</FormLabel>
                     <FormControl>
-                      <Input
-                        disabled={isLoading}
-                        placeholder="value..."
-                        {...field}
-                      />
+                      <div className="flex items-center justify-start gap-2">
+                        <div
+                          className="min-w-[20px] min-h-[20px] border-[1px] border-neutral-300 drop-shadow-2xl"
+                          style={{ background: field.value || "#000000" }}
+                        ></div>
+                        <Input
+                          disabled={isLoading}
+                          placeholder="value..."
+                          {...field}
+                        />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>

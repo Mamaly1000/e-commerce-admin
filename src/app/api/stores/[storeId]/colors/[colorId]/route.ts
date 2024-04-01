@@ -4,31 +4,31 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   _req: Request,
-  { params }: { params: { sizeId: string; storeId: string } }
+  { params }: { params: { colorId: string; storeId: string } }
 ) {
   try {
-    if (!params?.sizeId) {
+    if (!params?.colorId) {
       return new NextResponse("invalid id", { status: 400 });
     }
     if (!params.storeId) {
       return new NextResponse("storeId is required!", { status: 400 });
     }
 
-    const size = await prismaDB.size.findUnique({
+    const color = await prismaDB.color.findUnique({
       where: {
         storeId: params.storeId,
-        id: params.sizeId,
+        id: params.colorId,
       },
     });
-    return NextResponse.json(size);
+    return NextResponse.json(color);
   } catch (error) {
-    console.log(`[SIZE-GET-ERROR] `, error);
+    console.log(`[COLOR-GET-ERROR] `, error);
     return new NextResponse("internall error", { status: 500 });
   }
 }
 export async function PATCH(
   req: Request,
-  { params }: { params: { sizeId: string; storeId: string } }
+  { params }: { params: { colorId: string; storeId: string } }
 ) {
   try {
     const { userId } = auth();
@@ -36,7 +36,7 @@ export async function PATCH(
     if (!userId) {
       return new NextResponse("unAuthorized", { status: 401 });
     }
-    if (!params?.sizeId) {
+    if (!params?.colorId) {
       return new NextResponse("invalid id", { status: 400 });
     }
     if (!name || !value) {
@@ -54,10 +54,10 @@ export async function PATCH(
     if (!isUserStore) {
       return new NextResponse("unAuthorized", { status: 403 });
     }
-    const updatedSize = await prismaDB.size.update({
+    const updatedColor = await prismaDB.color.update({
       where: {
         storeId: params.storeId,
-        id: params.sizeId,
+        id: params.colorId,
       },
       data: {
         name,
@@ -65,17 +65,17 @@ export async function PATCH(
       },
     });
     return NextResponse.json({
-      message: "size updated",
-      updatedSize,
+      message: "color updated",
+      updatedColor,
     });
   } catch (error) {
-    console.log(`[SIZE-PATCH-ERROR] `, error);
+    console.log(`[COLOR-PATCH-ERROR] `, error);
     return new NextResponse("internall error", { status: 500 });
   }
 }
 export async function DELETE(
   _req: Request,
-  { params }: { params: { sizeId: string; storeId: string } }
+  { params }: { params: { colorId: string; storeId: string } }
 ) {
   try {
     const { userId } = auth();
@@ -83,7 +83,7 @@ export async function DELETE(
     if (!userId) {
       return new NextResponse("unAuthorized", { status: 401 });
     }
-    if (!params?.sizeId) {
+    if (!params?.colorId) {
       return new NextResponse("invalid id", { status: 400 });
     }
     if (!params.storeId) {
@@ -98,18 +98,18 @@ export async function DELETE(
     if (!isUserStore) {
       return new NextResponse("unAuthorized", { status: 403 });
     }
-    const deletedSize = await prismaDB.size.delete({
+    const deletedColor = await prismaDB.color.delete({
       where: {
         storeId: params.storeId,
-        id: params.sizeId,
+        id: params.colorId,
       },
     });
     return NextResponse.json({
       message: "color deleted",
-      deletedSize,
+      deletedColor,
     });
   } catch (error) {
-    console.log(`[SIZE-DELETE-ERROR] `, error);
+    console.log(`[COLOR-DELETE-ERROR] `, error);
     return new NextResponse("internall error", { status: 500 });
   }
 }
