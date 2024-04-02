@@ -21,6 +21,7 @@ model Store{
   categories Category[] @relation("StoreToCategory")
   sizes Size[] @relation("StoreToSize")
   colors Color[] @relation("StoreToColor")
+  products Product[] @relation("StoreToProduct")
 }
 model Billboard {
   id String @id @default(uuid()) @map("_id")
@@ -43,8 +44,9 @@ model Category{
    updatedAt DateTime @default(now())
    store Store @relation("StoreToCategory",fields: [storeId],references: [id],onDelete:Cascade)
    billboard Billboard @relation("BillboardToCategory",fields: [billboardId],references: [id],onDelete:Cascade)
+   products Product[] @relation("CategoryToProduct")
    @@index([storeId])
-   @@index([billboardId])
+   @@index([billboardId]) 
 }
 
 model Size{
@@ -53,6 +55,7 @@ model Size{
   store Store @relation("StoreToSize",fields: [storeId],references: [id],onDelete:Cascade)
   name String
   value String
+  products Product[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
   @@index([storeId])
@@ -63,7 +66,33 @@ model Color{
   store Store @relation("StoreToColor",fields: [storeId],references: [id],onDelete:Cascade)
   name String
   value String
+  products Product[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
   @@index([storeId])
+}
+
+model Product{
+  id String @id @default(uuid()) @map("_id")
+  storeId String 
+  store Store @relation("StoreToProduct",fields: [storeId],references: [id],onDelete:Cascade)
+  categoryId String
+  category Category @relation("CategoryToProduct",fields : [categoryId],references : [id],onDelete:Cascade)
+  sizeId String
+  size Size @relation(fields: [sizeId],references: [id], onDelete:Cascade)
+  colorId String
+  color Color @relation(fields: [colorId],references: [id], onDelete:Cascade)
+  images Image[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  @@index([storeId, categoryId, sizeId, colorId])
+}
+model Image {
+  id String @id @default(uuid()) @map("_id")
+  productId String  
+  product Product @relation(fields: [productId] ,references: [id],onDelete:Cascade)
+  url String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  @@index([productId])
 }
