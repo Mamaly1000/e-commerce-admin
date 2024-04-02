@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Button } from "./button";
 import { ImagePlus, Trash } from "lucide-react";
 import { toast } from "react-toastify";
+import placeholder from "../../../public/images/placeholder-removebg-preview.png";
 interface ImageUploadStore {
   value?: string[];
   disabled?: boolean;
@@ -34,10 +35,11 @@ const ImageUpload: FC<ImageUploadStore> = ({
 
   return (
     <div>
-      <div className="flex items-center gap-4 mb-4 flex-wrap justify-start">
+      <div className=" gap-4 mb-4  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  ">
         {value.map((url) => {
+          let image = url;
           return (
-            <div className="relative overflow-hidden drop-shadow-2xl rounded-md w-[400px] h-[400px] aspect-video">
+            <div className="relative overflow-hidden drop-shadow-2xl rounded-md aspect-video">
               <div className="z-10 absolute top-2 right-2">
                 <Button
                   variant={"destructive"}
@@ -49,9 +51,12 @@ const ImageUpload: FC<ImageUploadStore> = ({
                 </Button>
               </div>
               <Image
-                src={url}
+                src={image}
                 alt="image"
                 fill
+                onError={() => {
+                  image = placeholder.src;
+                }}
                 className="object-cover relative z-0"
               />
             </div>

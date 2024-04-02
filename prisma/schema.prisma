@@ -83,6 +83,10 @@ model Product{
   colorId String
   color Color @relation(fields: [colorId],references: [id], onDelete:Cascade)
   images Image[]
+  name        String
+  price       Float 
+  isFeatured  Boolean   @default(false)
+  isArchived  Boolean   @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
   @@index([storeId, categoryId, sizeId, colorId])
