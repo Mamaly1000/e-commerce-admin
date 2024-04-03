@@ -61,8 +61,8 @@ const BillboardForm: React.FC<BillboardProps> = ({ initialData }) => {
   const action = initialData ? "Save changes" : "Create";
   const onSubmit = async (data: BillboardFormValues) => {
     const url = initialData
-      ? `/api/stores/${params.storeId}/billboards/${params.billboardId}`
-      : `/api/stores/${params.storeId}/billboards`;
+      ? `/api/${params.storeId}/billboards/${params.billboardId}`
+      : `/api/${params.storeId}/billboards`;
     try {
       setLoading(true);
       if (initialData) {
@@ -93,7 +93,7 @@ const BillboardForm: React.FC<BillboardProps> = ({ initialData }) => {
       setLoading(true);
       await axios
         .delete(
-          `/api/stores/${params.storeId}/billboards/${params.billboardId}`
+          `/api/${params.storeId}/billboards/${params.billboardId}`
         )
         .then((res) => {
           router.refresh();

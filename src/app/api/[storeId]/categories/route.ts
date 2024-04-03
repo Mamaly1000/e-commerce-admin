@@ -1,6 +1,27 @@
 import prismaDB from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
+export async function GET(
+  _req: Request,
+  { params }: { params: { storeId: string } }
+) {
+  try {
+    if (!params.storeId) {
+      return new NextResponse("Store id is required", { status: 400 });
+    }
+
+    const categories = await prismaDB.category.findMany({
+      where: {
+        storeId: params.storeId,
+      },
+    });
+
+    return NextResponse.json(categories);
+  } catch (error) {
+    console.log("[CATEGORIES_GET]", error);
+    return new NextResponse("Internal error", { status: 500 });
+  }
+}
 
 export async function POST(
   req: Request,
@@ -38,26 +59,6 @@ export async function POST(
     return NextResponse.json({ message: "Category Created.", newCategory });
   } catch (error) {
     console.log("[POST-CATEGORY-ERROR] ", error);
-    return new NextResponse("internall error", { status: 500 });
-  }
-}
-export async function GET(
-  _req: Request,
-  { params }: { params: { storeId: string } }
-) {
-  try {
-    if (!params.storeId) {
-      return new NextResponse("storeId is required!", { status: 400 });
-    }
-
-    const categories = await prismaDB.category.findMany({
-      where: {
-        storeId: params.storeId,
-      },
-    });
-    return NextResponse.json(categories);
-  } catch (error) {
-    console.log("[GET-CATEGORY-ERROR] ", error);
     return new NextResponse("internall error", { status: 500 });
   }
 }

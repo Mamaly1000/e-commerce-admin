@@ -33,7 +33,7 @@ const CellAction = ({ data }: { data: OrderColumnType }) => {
     try {
       setLoading(true);
       await axios
-        .delete(`/api/stores/${params.storeId}/colors/${id}`)
+        .delete(`/api/${params.storeId}/colors/${id}`)
         .then((res) => {
           router.refresh();
           toast.success(res.data.message);

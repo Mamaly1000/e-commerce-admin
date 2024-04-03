@@ -57,8 +57,8 @@ const SizeForm: FC<props> = ({ initialData }) => {
   const action = initialData ? "Save changes" : "Create";
   const onSubmit = async (data: SizeFormValues) => {
     const url = initialData
-      ? `/api/stores/${params.storeId}/sizes/${params.sizeId}`
-      : `/api/stores/${params.storeId}/sizes`;
+      ? `/api/${params.storeId}/sizes/${params.sizeId}`
+      : `/api/${params.storeId}/sizes`;
     try {
       setLoading(true);
       if (initialData) {
@@ -85,7 +85,7 @@ const SizeForm: FC<props> = ({ initialData }) => {
     try {
       setLoading(true);
       await axios
-        .delete(`/api/stores/${params.storeId}/sizes/${params.sizeId}`)
+        .delete(`/api/${params.storeId}/sizes/${params.sizeId}`)
         .then((res) => {
           router.refresh();
           window.location.assign(`/${params.storeId}/sizes`);

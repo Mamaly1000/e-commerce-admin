@@ -68,8 +68,8 @@ const CategoryForm = ({
   const action = initialData ? "Save changes" : "Create";
   const onSubmit = async (data: CategoryFormValues) => {
     const url = initialData
-      ? `/api/stores/${params.storeId}/categories/${params.categoryId}`
-      : `/api/stores/${params.storeId}/categories`;
+      ? `/api/${params.storeId}/categories/${params.categoryId}`
+      : `/api/${params.storeId}/categories`;
     try {
       setLoading(true);
       if (initialData) {
@@ -98,7 +98,7 @@ const CategoryForm = ({
     try {
       setLoading(true);
       await axios
-        .delete(`/api/stores/${params.storeId}/categories/${params.categoryId}`)
+        .delete(`/api/${params.storeId}/categories/${params.categoryId}`)
         .then((res) => {
           window.location.assign(`/${params.storeId}/categories`);
           router.refresh();

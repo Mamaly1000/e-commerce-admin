@@ -37,7 +37,7 @@ const CellAction: FC<props> = ({ data }) => {
     try {
       setLoading(true);
       await axios
-        .delete(`/api/stores/${params.storeId}/billboards/${id}`)
+        .delete(`/api/${params.storeId}/billboards/${id}`)
         .then((res) => {
           router.refresh();
           toast.success(res.data.message);

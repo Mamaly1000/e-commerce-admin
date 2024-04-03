@@ -98,8 +98,8 @@ const ProductForm: FC<props> = ({ initialData, categories, colors, sizes }) => {
 
   const onSubmit = async (data: ProductFormValues) => {
     const url = initialData
-      ? `/api/stores/${params.storeId}/products/${params.productId}`
-      : `/api/stores/${params.storeId}/products`;
+      ? `/api/${params.storeId}/products/${params.productId}`
+      : `/api/${params.storeId}/products`;
     try {
       setLoading(true);
       if (initialData) {
@@ -126,7 +126,7 @@ const ProductForm: FC<props> = ({ initialData, categories, colors, sizes }) => {
     try {
       setLoading(true);
       await axios
-        .delete(`/api/stores/${params.storeId}/products/${params.productId}`)
+        .delete(`/api/${params.storeId}/products/${params.productId}`)
         .then((res) => {
           router.refresh();
           window.location.assign(`/${params.storeId}/products`);

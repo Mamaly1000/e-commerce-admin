@@ -57,8 +57,8 @@ const ColorForm: FC<props> = ({ initialData }) => {
   const action = initialData ? "Save changes" : "Create";
   const onSubmit = async (data: ColorFormValues) => {
     const url = initialData
-      ? `/api/stores/${params.storeId}/colors/${params.ColorId}`
-      : `/api/stores/${params.storeId}/colors`;
+      ? `/api/${params.storeId}/colors/${params.ColorId}`
+      : `/api/${params.storeId}/colors`;
     try {
       setLoading(true);
       if (initialData) {
@@ -85,7 +85,7 @@ const ColorForm: FC<props> = ({ initialData }) => {
     try {
       setLoading(true);
       await axios
-        .delete(`/api/stores/${params.storeId}/colors/${params.ColorId}`)
+        .delete(`/api/${params.storeId}/colors/${params.ColorId}`)
         .then((res) => {
           router.refresh();
           window.location.assign(`/${params.storeId}/colors`);

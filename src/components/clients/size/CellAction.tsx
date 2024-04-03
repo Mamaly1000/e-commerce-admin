@@ -33,7 +33,7 @@ const CellAction = ({ data }: { data: SizeColumnType }) => {
     try {
       setLoading(true);
       await axios
-        .delete(`/api/stores/${params.storeId}/sizes/${id}`)
+        .delete(`/api/${params.storeId}/sizes/${id}`)
         .then((res) => {
           router.refresh();
           toast.success(res.data.message);
