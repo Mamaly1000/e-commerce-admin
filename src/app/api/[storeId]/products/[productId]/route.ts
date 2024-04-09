@@ -12,12 +12,17 @@ export async function GET(
     }
     if (!params.storeId) {
       return new NextResponse("storeId is required!", { status: 400 });
-    }
-
+    } 
     const product = await prismaDB.product.findUnique({
       where: {
         storeId: params.storeId,
         id: params.productId,
+      },
+      include: {
+        category: true,
+        size: true,
+        color: true,
+        images: true,
       },
     });
     return NextResponse.json(product);

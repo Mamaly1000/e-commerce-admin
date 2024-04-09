@@ -90,8 +90,9 @@ export async function GET(
     const colorId = searchParams.get("colorId") || undefined;
     const sizeId = searchParams.get("sizeId") || undefined;
     const isFeatured = searchParams.get("isFeatured");
+
     if (!params.storeId) {
-      return new NextResponse("storeId is required!", { status: 400 });
+      return new NextResponse("Store id is required", { status: 400 });
     }
 
     const products = await prismaDB.product.findMany({
@@ -100,22 +101,23 @@ export async function GET(
         categoryId,
         colorId,
         sizeId,
-        isFeatured: !!isFeatured ? true : false,
+        isFeatured: isFeatured ? true : undefined,
         isArchived: false,
       },
       include: {
         images: true,
         category: true,
-        size: true,
         color: true,
+        size: true,
       },
       orderBy: {
         createdAt: "desc",
       },
     });
+
     return NextResponse.json(products);
   } catch (error) {
-    console.log("[GET-PRODUCTS-ERROR] ", error);
-    return new NextResponse("internall error", { status: 500 });
+    console.log("[PRODUCTS_GET]", error);
+    return new NextResponse("Internal error", { status: 500 });
   }
 }

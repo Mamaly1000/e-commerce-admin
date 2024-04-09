@@ -37,6 +37,7 @@ const CellAction = ({ data }: { data: CategoryColumnType }) => {
         .then((res) => {
           router.refresh();
           toast.success(res.data.message);
+          setOpen(false);
         });
     } catch (error: any) {
       toast.error("Make sure you removed all products and categories first.");
@@ -48,7 +49,7 @@ const CellAction = ({ data }: { data: CategoryColumnType }) => {
     <>
       <AlertModal
         isOpen={open}
-        onClose={() => setOpen(false)}
+        onClose={() => !isLoading && setOpen(false)}
         onConfirm={() => onDelete(data.id)}
         loading={isLoading}
       />
