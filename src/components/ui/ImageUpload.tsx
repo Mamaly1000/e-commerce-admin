@@ -39,7 +39,10 @@ const ImageUpload: FC<ImageUploadStore> = ({
         {value.map((url) => {
           let image = url;
           return (
-            <div className="relative overflow-hidden drop-shadow-2xl rounded-md aspect-video">
+            <div
+              key={url}
+              className="relative overflow-hidden drop-shadow-2xl rounded-md aspect-video"
+            >
               <div className="z-10 absolute top-2 right-2">
                 <Button
                   variant={"destructive"}
