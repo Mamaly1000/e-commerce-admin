@@ -36,11 +36,8 @@ export const columns: ColumnDef<OrderColumnType>[] = [
     accessorKey: "updatedAt",
     header: "updated at",
   },
-  // {
-  //   accessorKey: "actions",
-  //   header: () => {
-  //     return <div className="float-end">actions</div>;
-  //   },
-  //   cell: (props) => <CellAction data={props.row.original} />,
-  // },
+  {
+    accessorKey: "status",
+    header: "status",
+  },
 ];

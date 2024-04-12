@@ -7,4 +7,5 @@ export type safeOrderType = {
   createdAt: string;
   updatedAt: string;
   products: string;
+  status: string;
 };

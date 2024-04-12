@@ -111,6 +111,7 @@ model Order{
   address String @default("")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
+  status String @default("PENDING")
 
   @@index([storeId])
  }

@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { safeOrderType } from "@/types/Order";
 import OrderClient from "@/components/clients/order/OrderClient";
 import { formatter } from "@/lib/utils";
-
+export const revalidate = 0;
 const OrdersPage = async ({ params }: { params: { storeId: string } }) => {
   const orders = await prismaDB.order.findMany({
     where: { storeId: params.storeId },
@@ -31,6 +31,7 @@ const OrdersPage = async ({ params }: { params: { storeId: string } }) => {
         return (acc += Number(current.product.price));
       }, 0)
     ),
+    status: s.status,
   }));
   return <OrderClient orders={formattedOrders} />;
 };
