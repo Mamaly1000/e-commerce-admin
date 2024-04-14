@@ -92,9 +92,7 @@ const BillboardForm: React.FC<BillboardProps> = ({ initialData }) => {
     try {
       setLoading(true);
       await axios
-        .delete(
-          `/api/${params.storeId}/billboards/${params.billboardId}`
-        )
+        .delete(`/api/${params.storeId}/billboards/${params.billboardId}`)
         .then((res) => {
           router.refresh();
           window.location.assign(`/${params.storeId}/billboards`);
@@ -136,7 +134,7 @@ const BillboardForm: React.FC<BillboardProps> = ({ initialData }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full space-y-8 "
         >
-          <div className="grid grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <FormField
               control={form.control}
               name="label"
