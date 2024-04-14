@@ -62,16 +62,19 @@ export default function StoreSwitcher({
           size="sm"
           role="combobox"
           aria-label="Select a store"
-          className={cn("w-[200px] justify-between", className)}
+          className={cn(
+            "w-fit gap-1 lg:gap-0 lg:w-[200px] justify-between",
+            className
+          )}
         >
-          <Store className="mr-2 h-4 w-4" />
+          <Store className="mr-2 h-4 w-4 hidden sm:block" />
           {currentStore?.label}
           <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandList >
+          <CommandList>
             <CommandInput name="store" placeholder="Search store..." />
             <CommandEmpty>No store found.</CommandEmpty>
             <CommandGroup heading="Stores">
