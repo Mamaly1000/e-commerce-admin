@@ -65,7 +65,7 @@ export function DataTable<TData, TValue>({
   return (
     <div className="min-w-full max-w-full">
       {search && (
-        <div className="flex items-center py-4">
+        <div className="flex items-center py-4 gap-3">
           <Input
             placeholder={search.placeHolder}
             value={

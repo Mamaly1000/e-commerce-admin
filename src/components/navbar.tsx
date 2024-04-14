@@ -21,7 +21,7 @@ const Navbar = async () => {
 
   return (
     <div className="border-b">
-      <div className="flex h-24 md:h-16 items-center justify-between px-4 flex-wrap">
+      <div className="flex h-16 items-center sticky top-0 left-0 z-50 justify-between px-4 flex-wrap">
         <div className="flex items-center justify-start gap-4">
           <StoreSwitcher items={stores} />
           <MainNav />
