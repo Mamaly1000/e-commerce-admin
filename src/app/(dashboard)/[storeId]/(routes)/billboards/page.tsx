@@ -1,4 +1,4 @@
-import BillboardClient from "./components/BillboardClient";
+import BillboardClient from "../../../../../components/clients/billboard/BillboardClient";
 import prismaDB from "@/lib/prismadb";
 import { safeBillboardType } from "@/types/Billboard";
 import React from "react";

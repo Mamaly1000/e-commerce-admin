@@ -18,7 +18,7 @@ const StorePage = async ({ params }: { params: { storeId: string } }) => {
   const graphRevenue = await getRevenueGraph(params.storeId);
   return (
     <div className="flex flex-col ">
-      <div className="flex-1 space-y-4 pt-3">
+      <div className="flex-1 space-y-4 ">
         <Heading
           className="h-fit"
           title="Dashboard"

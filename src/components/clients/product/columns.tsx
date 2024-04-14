@@ -6,6 +6,7 @@ import { safeColorType } from "@/types/Color";
 import { ColumnDef } from "@tanstack/react-table";
 import { safeProductType } from "@/types/Product";
 import Image from "next/image";
+import { sortedHeader } from "@/components/ui/SortedHeader";
 
 export type ProductColumnType = Omit<safeProductType, "storeId">;
 
@@ -16,30 +17,35 @@ export const columns: ColumnDef<ProductColumnType>[] = [
     cell: (props) => {
       return (
         <div className="w-[30px] h-[30px] rounded-md drop-shadow-2xl relative aspect-video overflow-hidden ">
-          <Image src={props.row.original.image} alt={props.row.original.name} fill className="object-cover" />
+          <Image
+            src={props.row.original.image}
+            alt={props.row.original.name}
+            fill
+            className="object-cover"
+          />
         </div>
       );
     },
   },
   {
     accessorKey: "name",
-    header: "name",
+    header: ({ column }) => sortedHeader({ column, label: "name" }),
   },
   {
     accessorKey: "price",
-    header: "price",
+    header: ({ column }) => sortedHeader({ column, label: "price" }),
   },
   {
     accessorKey: "category",
-    header: "category",
+    header: ({ column }) => sortedHeader({ column, label: "category" }),
   },
   {
     accessorKey: "size",
-    header: "size",
+    header: ({ column }) => sortedHeader({ column, label: "size" }),
   },
   {
     accessorKey: "color",
-    header: "color",
+    header: ({ column }) => sortedHeader({ column, label: "color" }),
     cell: (props) => {
       return (
         <div className="flex items-center justify-start gap-2">
@@ -64,11 +70,11 @@ export const columns: ColumnDef<ProductColumnType>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "created at",
+    header: ({ column }) => sortedHeader({ column, label: "created at" }),
   },
   {
     accessorKey: "updatedAt",
-    header: "updated at",
+    header: ({ column }) => sortedHeader({ column, label: "updated at" }),
   },
   {
     accessorKey: "actions",

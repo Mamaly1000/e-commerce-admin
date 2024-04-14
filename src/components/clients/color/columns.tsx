@@ -4,17 +4,18 @@ import { cn } from "@/lib/utils";
 import CellAction from "./CellAction";
 import { safeColorType } from "@/types/Color";
 import { ColumnDef } from "@tanstack/react-table";
+import { sortedHeader } from "@/components/ui/SortedHeader";
 
 export type ColorColumnType = Omit<safeColorType, "storeId">;
 
 export const columns: ColumnDef<ColorColumnType>[] = [
   {
     accessorKey: "name",
-    header: "name",
+    header: ({ column }) => sortedHeader({ column, label: "name" }),
   },
   {
     accessorKey: "value",
-    header: "color",
+    header: ({ column }) => sortedHeader({ column, label: "color" }),
     cell: (props) => {
       return (
         <div className="flex items-center justify-start gap-2">
@@ -31,11 +32,11 @@ export const columns: ColumnDef<ColorColumnType>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "created at",
+    header: ({ column }) => sortedHeader({ column, label: "created at" }),
   },
   {
     accessorKey: "updatedAt",
-    header: "updated at",
+    header: ({ column }) => sortedHeader({ column, label: "updated at" }),
   },
   {
     accessorKey: "actions",

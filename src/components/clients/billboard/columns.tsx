@@ -4,9 +4,8 @@ import { safeBillboardType } from "@/types/Billboard";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
 import CellAction from "./cell-action";
+import { sortedHeader } from "@/components/ui/SortedHeader";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
 export type BillboardColumnType = Omit<safeBillboardType, "storeId">;
 
 export const columns: ColumnDef<BillboardColumnType>[] = [
@@ -23,15 +22,15 @@ export const columns: ColumnDef<BillboardColumnType>[] = [
   },
   {
     accessorKey: "label",
-    header: "label",
+    header: ({ column }) => sortedHeader({ column, label: "label" }),
   },
   {
     accessorKey: "createdAt",
-    header: "created at",
+    header: ({ column }) => sortedHeader({ column, label: "created at" }),
   },
   {
     accessorKey: "updatedAt",
-    header: "updated at",
+    header: ({ column }) => sortedHeader({ column, label: "updated at" }),
   },
   {
     accessorKey: "actions",

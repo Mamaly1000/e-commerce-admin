@@ -1,28 +1,27 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import CellAction from "./CellAction";
 import { safeOrderType } from "@/types/Order";
 import { ColumnDef } from "@tanstack/react-table";
+import { sortedHeader } from "@/components/ui/SortedHeader";
 
 export type OrderColumnType = Omit<safeOrderType, "storeId">;
 
 export const columns: ColumnDef<OrderColumnType>[] = [
   {
     accessorKey: "products",
-    header: "Products",
+    header: ({ column }) => sortedHeader({ column, label: "products" }),
   },
   {
     accessorKey: "phone",
-    header: "Phone",
+    header: ({ column }) => sortedHeader({ column, label: "phone" }),
   },
   {
     accessorKey: "address",
-    header: "Address",
+    header: ({ column }) => sortedHeader({ column, label: "address" }),
   },
   {
     accessorKey: "totalPrice",
-    header: "Total price",
+    header: ({ column }) => sortedHeader({ column, label: "totalPrice" }),
   },
   {
     accessorKey: "isPaid",
@@ -30,11 +29,11 @@ export const columns: ColumnDef<OrderColumnType>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "created at",
+    header: ({ column }) => sortedHeader({ column, label: "createdAt" }),
   },
   {
     accessorKey: "updatedAt",
-    header: "updated at",
+    header: ({ column }) => sortedHeader({ column, label: "updatedAt" }),
   },
   {
     accessorKey: "status",

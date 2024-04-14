@@ -1,27 +1,28 @@
 "use client";
 
+import { sortedHeader } from "@/components/ui/SortedHeader";
 import CellAction from "./CellAction";
 import { safeCategoryType } from "@/types/Category";
-import { ColumnDef } from "@tanstack/react-table"; 
+import { ColumnDef } from "@tanstack/react-table";
 
 export type CategoryColumnType = Omit<safeCategoryType, "storeId">;
 
 export const columns: ColumnDef<CategoryColumnType>[] = [
   {
     accessorKey: "name",
-    header: "name",
+    header: ({ column }) => sortedHeader({ column, label: "name" }),
   },
   {
     accessorKey: "billboard_label",
-    header: "billboard label",
+    header: ({ column }) => sortedHeader({ column, label: "billboard label" }),
   },
   {
     accessorKey: "createdAt",
-    header: "created at",
+    header: ({ column }) => sortedHeader({ column, label: "created at" }),
   },
   {
     accessorKey: "updatedAt",
-    header: "updated at",
+    header: ({ column }) => sortedHeader({ column, label: "updated at" }),
   },
   {
     accessorKey: "actions",

@@ -6,9 +6,15 @@ import {
   Check,
   ChevronsUpDown,
   Moon,
-  Navigation,
-  Store,
   Sun,
+  SquareGantt,
+  Boxes,
+  Ruler,
+  PaintBucket,
+  SquareKanban,
+  ListOrderedIcon,
+  Settings,
+  Volume2,
 } from "lucide-react";
 import {
   Command,
@@ -36,47 +42,56 @@ const NavSwitcher = () => {
       href: `/${params.storeId}`,
       label: "Overview",
       active: pathname === `/${params.storeId}`,
+      icon: SquareGantt,
     },
     {
       href: `/${params.storeId}/billboards`,
       label: "Billboards",
       active: pathname === `/${params.storeId}/billboards`,
+      icon: Volume2,
     },
     {
       href: `/${params.storeId}/categories`,
       label: "Categories",
       active: pathname === `/${params.storeId}/categories`,
+      icon: Boxes,
     },
     {
       href: `/${params.storeId}/sizes`,
       label: "Sizes",
       active: pathname === `/${params.storeId}/sizes`,
+      icon: Ruler,
     },
     {
       href: `/${params.storeId}/colors`,
       label: "Colors",
       active: pathname === `/${params.storeId}/colors`,
+      icon: PaintBucket,
     },
     {
       href: `/${params.storeId}/products`,
       label: "Products",
       active: pathname === `/${params.storeId}/products`,
+      icon: SquareKanban,
     },
     {
       href: `/${params.storeId}/orders`,
       label: "Orders",
       active: pathname === `/${params.storeId}/orders`,
+      icon: ListOrderedIcon,
     },
     {
       href: `/${params.storeId}/settings`,
       label: "Settings",
       active: pathname === `/${params.storeId}/settings`,
+      icon: Settings,
     },
   ];
   const formattedItems = routes.map((item) => ({
     label: item.label,
     value: item.href,
     isActive: item.active,
+    icon: item.icon,
   }));
   const currentLink = formattedItems.find((item) => !!item.isActive);
 
@@ -95,7 +110,9 @@ const NavSwitcher = () => {
           aria-label="Select a store"
           className={cn("w-fit gap-1 justify-between lg:hidden")}
         >
-          <Navigation className="mr-2 h-4 w-4 hidden sm:block" />
+          {currentLink?.icon && (
+            <currentLink.icon className="mr-2 h-4 w-4 hidden sm:block" />
+          )}
           {currentLink?.label}
           <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -103,16 +120,16 @@ const NavSwitcher = () => {
       <PopoverContent className="w-[200px] p-0">
         <Command>
           <CommandList>
-            <CommandInput name="store" placeholder="Search store..." />
+            <CommandInput name="store" placeholder="Search link..." />
             <CommandEmpty>No store found.</CommandEmpty>
-            <CommandGroup heading="Stores">
+            <CommandGroup heading="Nav Links">
               {formattedItems.map((link) => (
                 <CommandItem
                   key={link.value}
                   onSelect={() => onLinkSelect(link)}
                   className="text-sm"
                 >
-                  <Store className="mr-2 h-4 w-4" />
+                  {link.icon && <link.icon className="mr-2 h-4 w-4" />}
                   {link.label}
                   <Check
                     className={cn(

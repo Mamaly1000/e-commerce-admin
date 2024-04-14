@@ -1,5 +1,6 @@
 "use client";
 
+import { sortedHeader } from "@/components/ui/SortedHeader";
 import CellAction from "./CellAction";
 import { safeSizeType } from "@/types/Size";
 import { ColumnDef } from "@tanstack/react-table";
@@ -9,19 +10,19 @@ export type SizeColumnType = Omit<safeSizeType, "storeId">;
 export const columns: ColumnDef<SizeColumnType>[] = [
   {
     accessorKey: "name",
-    header: "name",
+    header: ({ column }) => sortedHeader({ column, label: "name" }),
   },
   {
     accessorKey: "value",
-    header: "value",
+    header: ({ column }) => sortedHeader({ column, label: "value" }),
   },
   {
     accessorKey: "createdAt",
-    header: "created at",
+    header: ({ column }) => sortedHeader({ column, label: "created at" }),
   },
   {
     accessorKey: "updatedAt",
-    header: "updated at",
+    header: ({ column }) => sortedHeader({ column, label: "updated at" }),
   },
   {
     accessorKey: "actions",
