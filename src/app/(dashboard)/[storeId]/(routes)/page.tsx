@@ -18,20 +18,20 @@ const StorePage = async ({ params }: { params: { storeId: string } }) => {
   const graphRevenue = await getRevenueGraph(params.storeId);
   return (
     <div className="flex flex-col ">
-      <div className="flex-1 space-y-4 p-8 pt-6">
+      <div className="flex-1 space-y-4 pt-3">
         <Heading
           className="h-fit"
           title="Dashboard"
           description="Overview of your store"
         />
         <Separator />
-        <div className="grid gap-4 grid-cols-3">
+        <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
           <Card>
             <CardHeader className="capitalize  flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
                 total revenue
               </CardTitle>
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
+              <DollarSign className="h-8 w-8  text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
@@ -42,7 +42,7 @@ const StorePage = async ({ params }: { params: { storeId: string } }) => {
           <Card>
             <CardHeader className="capitalize  flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">sales</CardTitle>
-              <CreditCard className="h-4 w-4 text-muted-foreground" />
+              <CreditCard className="h-8 w-8  text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">+{totalSales}</div>
@@ -53,7 +53,7 @@ const StorePage = async ({ params }: { params: { storeId: string } }) => {
               <CardTitle className="text-sm font-medium">
                 Products in stock
               </CardTitle>
-              <Package className="h-4 w-4 text-muted-foreground" />
+              <Package className="h-8 w-8  text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{productsInStock}</div>
