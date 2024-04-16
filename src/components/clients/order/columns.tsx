@@ -3,6 +3,8 @@
 import { safeOrderType } from "@/types/Order";
 import { ColumnDef } from "@tanstack/react-table";
 import { sortedHeader } from "@/components/ui/SortedHeader";
+import { cn } from "@/lib/utils";
+import { statusTypes } from "@/types/payment";
 
 export type OrderColumnType = Omit<safeOrderType, "storeId">;
 
@@ -38,5 +40,19 @@ export const columns: ColumnDef<OrderColumnType>[] = [
   {
     accessorKey: "status",
     header: "status",
+    cell: ({ row }) => {
+      const status = row.original.status as statusTypes;
+      return (
+        <span
+          className={cn(
+            status === "COMPLETED" && " text-green-700 dark:text-green-500",
+            status === "CANCELED" && "text-red-500",
+            status === "PENDING" && "text-yellow-600 dark:text-yellow-500"
+          )}
+        >
+          {status}
+        </span>
+      );
+    },
   },
 ];
