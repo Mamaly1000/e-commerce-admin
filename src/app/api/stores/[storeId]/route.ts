@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs";
 
-import prismadb from "@/lib/prismadb";
+import prismaDB from "@/lib/prismadb";
 
 export async function PATCH(
   req: Request,
@@ -25,7 +25,7 @@ export async function PATCH(
       return new NextResponse("Store id is required", { status: 400 });
     }
 
-    const store = await prismadb.store.updateMany({
+    const store = await prismaDB.store.updateMany({
       where: {
         id: params.storeId,
         userId,
@@ -57,7 +57,7 @@ export async function DELETE(
       return new NextResponse("Store id is required", { status: 400 });
     }
 
-    const store = await prismadb.store.deleteMany({
+    const store = await prismaDB.store.deleteMany({
       where: {
         id: params.storeId,
         userId,
@@ -70,3 +70,5 @@ export async function DELETE(
     return new NextResponse("Internal error", { status: 500 });
   }
 }
+
+

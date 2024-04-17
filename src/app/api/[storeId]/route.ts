@@ -51,3 +51,27 @@ export async function DELETE(
     return new NextResponse("internall error", { status: 500 });
   }
 }
+export async function GET(
+  _req: Request,
+  { params }: { params: { storeId: string } }
+) {
+  try {
+    if (!params.storeId) {
+      return new NextResponse("storeId is required!", { status: 400 });
+    }
+
+    const store = await prismaDB.store.findUnique({
+      where: {
+        id: params.storeId,
+      },
+      select: {
+        name: true,
+        id: true,
+      },
+    });
+    return NextResponse.json(store);
+  } catch (error) {
+    console.log("[STORE-GET-ERROR] ", error);
+    return new NextResponse("internall error", { status: 500 });
+  }
+}
