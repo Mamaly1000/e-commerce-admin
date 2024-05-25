@@ -54,7 +54,7 @@ const ImageUpload: FC<ImageUploadStore> = ({
                 </Button>
               </div>
               <Image
-                src={image}
+                src={!!image ? image : placeholder.src}
                 alt="image"
                 fill
                 onError={() => {

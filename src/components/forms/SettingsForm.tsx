@@ -23,6 +23,8 @@ import { toast } from "react-toastify";
 import { AlertModal } from "../modals/AlertModal";
 import ApiAlert from "../shared/ApiAlert";
 import useOrigin from "@/hooks/useOrigin";
+import ImageUpload from "../ui/ImageUpload";
+import { Textarea } from "../ui/textarea";
 
 interface SettingsFormProps {
   initialData: Store;
@@ -35,6 +37,15 @@ const formSchema = z.object({
       message: "Name cannot consist of only whitespace characters",
       path: ["name"],
     }),
+  description: z
+    .string()
+    .min(1, { message: "Description cannot be empty" })
+    .refine((value) => value.trim().length > 0, {
+      message: "Description cannot consist of only whitespace characters",
+      path: ["description"],
+    }),
+  logo: z.string().min(1, "min character is 1"),
+  background_Image: z.string().min(1, "min character is 1"),
 });
 
 type SettingsFormValues = z.infer<typeof formSchema>;
@@ -56,7 +67,7 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
       setLoading(true);
       await axios.patch(`/api/stores/${params.storeId}`, data).then((res) => {
         router.refresh();
-        toast.success(res.data.message);
+        toast.success("store updated!");
       });
     } catch (error: any) {
       toast.error("Something went wrong.");
@@ -80,6 +91,7 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
       setOpen(false);
     }
   };
+  
   return (
     <section className="min-w-full max-w-full flex flex-col items-start justify-start gap-5">
       <AlertModal
@@ -111,7 +123,57 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full space-y-8 "
         >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <FormField
+            control={form.control}
+            name="logo"
+            render={({ field }) => {
+              return (
+                <FormItem>
+                  <FormLabel>Store Logo</FormLabel>
+                  <FormControl>
+                    <ImageUpload
+                      onChange={(val) => {
+                        field.onChange(val.trim());
+                      }}
+                      onRemove={() => {
+                        field.onChange("");
+                      }}
+                      disabled={isLoading}
+                      max={1}
+                      value={[field.value]}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
+          />
+          <FormField
+            control={form.control}
+            name="background_Image"
+            render={({ field }) => {
+              return (
+                <FormItem>
+                  <FormLabel>Store Background Image</FormLabel>
+                  <FormControl>
+                    <ImageUpload
+                      onChange={(val) => {
+                        field.onChange(val.trim());
+                      }}
+                      onRemove={() => {
+                        field.onChange("");
+                      }}
+                      disabled={isLoading}
+                      max={1}
+                      value={[field.value]}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
+          />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <FormField
               control={form.control}
               name="name"
@@ -123,6 +185,25 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
                       <Input
                         disabled={isLoading}
                         placeholder="store name..."
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className="" />
+                  </FormItem>
+                );
+              }}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormLabel>description</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        disabled={isLoading}
+                        placeholder="store description..."
                         {...field}
                       />
                     </FormControl>

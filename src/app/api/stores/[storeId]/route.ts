@@ -11,14 +11,34 @@ export async function PATCH(
     const { userId } = auth();
     const body = await req.json();
 
-    const { name } = body;
+    const {
+      name,
+      background_Image,
+      description,
+      logo,
+    }: {
+      name?: string;
+      background_Image?: string;
+      description?: string;
+      logo?: string;
+    } = body;
 
     if (!userId) {
       return new NextResponse("Unauthenticated", { status: 403 });
     }
 
-    if (!name) {
+    if (!name || typeof name !== "string") {
       return new NextResponse("Name is required", { status: 400 });
+    }
+    if (!background_Image || typeof background_Image !== "string") {
+      return new NextResponse("background image is not valid", { status: 400 });
+    }
+    if (!description || typeof description !== "string") {
+      return new NextResponse("description is not valid", { status: 400 });
+    }
+
+    if (!logo || typeof logo !== "string") {
+      return new NextResponse("logo is not valid", { status: 400 });
     }
 
     if (!params.storeId) {
@@ -32,6 +52,9 @@ export async function PATCH(
       },
       data: {
         name,
+        background_Image,
+        description,
+        logo,
       },
     });
 
@@ -70,5 +93,3 @@ export async function DELETE(
     return new NextResponse("Internal error", { status: 500 });
   }
 }
-
-

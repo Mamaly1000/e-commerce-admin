@@ -64,12 +64,41 @@ export async function GET(
       where: {
         id: params.storeId,
       },
-      select: {
-        name: true,
-        id: true,
+      include: {
+        orders: {
+          select: {
+            isPaid: true,
+            orderItems: {
+              select: {
+                product: true,
+              },
+            },
+          },
+        },
+        products: {
+          select: { id: true },
+        },
       },
     });
-    return NextResponse.json(store);
+    if (!store) {
+      return new NextResponse("store not found!", { status: 400 });
+    }
+    const store_with_analytic = {
+      name: store.name,
+      id: store.id,
+      description: store.description,
+      background_Image: store.background_Image,
+      logo: store.logo,
+      total_revenue: store.orders.reduce((acc, current) => {
+        return (acc += current.orderItems.reduce((acc, current) => {
+          return (acc += current.product.price);
+        }, 0));
+      }, 0),
+      total_sell_products: store.orders.reduce((acc, current) => {
+        return (acc += current.orderItems.length);
+      }, 0),
+    };
+    return NextResponse.json(store_with_analytic);
   } catch (error) {
     console.log("[STORE-GET-ERROR] ", error);
     return new NextResponse("internall error", { status: 500 });

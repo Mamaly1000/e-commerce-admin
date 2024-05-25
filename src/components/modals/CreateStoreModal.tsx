@@ -17,9 +17,11 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import axios from "axios";
+import { Textarea } from "../ui/textarea"; 
 
 const formSchema = z.object({
   name: z.string().min(1).trim(),
+  description: z.string().min(1).trim(),
 });
 
 const CreateStoreModal = () => {
@@ -30,6 +32,7 @@ const CreateStoreModal = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
+      description: "",
     },
   });
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -67,27 +70,50 @@ const CreateStoreModal = () => {
       <div>
         <div className="space-y-4 py-2 pb-4">
           <Form {...formState}>
-            <form onSubmit={formState.handleSubmit(onSubmit)}>
-              <FormField
-                control={formState.control}
-                name="name"
-                disabled={isLoading}
-                render={({ field }) => {
-                  return (
-                    <FormItem>
-                      <FormLabel>Name</FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isLoading}
-                          placeholder={isLoading ? "disabled" : "E-Commerce"}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  );
-                }}
-              />
+            <form
+              className="relative z-20"
+              onSubmit={formState.handleSubmit(onSubmit)}
+            >
+              <div className="flex flex-col gap-8">
+                <FormField
+                  control={formState.control}
+                  name="name"
+                  render={({ field }) => {
+                    return (
+                      <FormItem>
+                        <FormLabel>Name</FormLabel>
+                        <FormControl>
+                          <Input
+                            disabled={isLoading}
+                            placeholder="store name..."
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className="" />
+                      </FormItem>
+                    );
+                  }}
+                />
+                <FormField
+                  control={formState.control}
+                  name="description"
+                  render={({ field }) => {
+                    return (
+                      <FormItem>
+                        <FormLabel>description</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            disabled={isLoading}
+                            placeholder="store description..."
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className="" />
+                      </FormItem>
+                    );
+                  }}
+                />
+              </div>
               <div className="pt-6 space-x-2 flex items-center justify-end ">
                 <Button
                   disabled={isLoading}
