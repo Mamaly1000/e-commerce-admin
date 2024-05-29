@@ -59,7 +59,7 @@ export async function POST(
     return NextResponse.json(
       {
         message: `Order is in pending status.`,
-        url: `${process.env.FRONT_STORE_URL}/cart?${status}=1`,
+        url: `${process.env.FRONT_STORE_URL}/store/${params.storeId}/cart?${status}=1`,
         orderId: order.id,
       },
       { headers: corsHeaders }
@@ -75,7 +75,7 @@ export async function POST(
     return NextResponse.json(
       {
         message: `Order is in cancel status.`,
-        url: `${process.env.FRONT_STORE_URL}/cart?${status}=1`,
+        url: `${process.env.FRONT_STORE_URL}/store/${params.storeId}/cart?${status}=1`,
       },
       { headers: corsHeaders }
     );
@@ -93,7 +93,7 @@ export async function POST(
     return NextResponse.json(
       {
         message: `Order is in success status.`,
-        url: `${process.env.FRONT_STORE_URL}/cart?${status}=1`,
+        url: `${process.env.FRONT_STORE_URL}/store/${params.storeId}/cart?${status}=1`,
       },
       { headers: corsHeaders }
     );
