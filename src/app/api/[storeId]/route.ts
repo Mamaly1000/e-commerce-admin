@@ -89,14 +89,18 @@ export async function GET(
       description: store.description,
       background_Image: store.background_Image,
       logo: store.logo,
-      total_revenue: store.orders.reduce((acc, current) => {
-        return (acc += current.orderItems.reduce((acc, current) => {
-          return (acc += current.product.price);
-        }, 0));
-      }, 0),
-      total_sell_products: store.orders.reduce((acc, current) => {
-        return (acc += current.orderItems.length);
-      }, 0),
+      total_revenue: store.orders
+        .filter((order) => order.isPaid)
+        .reduce((acc, current) => {
+          return (acc += current.orderItems.reduce((acc, current) => {
+            return (acc += current.product.price);
+          }, 0));
+        }, 0),
+      total_sell_products: store.orders
+        .filter((order) => order.isPaid)
+        .reduce((acc, current) => {
+          return (acc += current.orderItems.length);
+        }, 0),
     };
     return NextResponse.json(store_with_analytic);
   } catch (error) {
